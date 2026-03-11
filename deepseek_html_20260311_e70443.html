@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥛 PERJUANGAN ANAK TK MENJUAL SEBOTOL SUSU</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        body {
+            background: #2b2b2b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 10px;
+        }
+        .game-container {
+            max-width: 750px;
+            width: 100%;
+            background: #1a1a1a;
+            border: 4px solid #8b8b8b;
+            border-radius: 0;
+            padding: 20px;
+            box-shadow: 0 0 0 4px #4a4a4a;
+            color: #b5ff9f;
+            image-rendering: pixelated;
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin: 0 0 10px;
+            color: #ffffb5;
+            text-shadow: 3px 3px 0 #6b6b6b;
+            letter-spacing: 2px;
+            word-break: break-word;
+        }
+        .susubotol {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .susubotol pre {
+            color: #f0f0f0;
+            font-size: 12px;
+            line-height: 1.2;
+            background: #2d2d2d;
+            padding: 10px;
+            border: 2px solid #6b6b6b;
+        }
+        .story-box {
+            background: #0f0f0f;
+            border: 2px solid #7e7e7e;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #b5ff9f;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            background: #2e2e2e;
+            padding: 10px;
+            border: 2px solid #6e6e6e;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .question-box {
+            background: #1e1e1e;
+            border: 2px solid #8b8b8b;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-align: center;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .option-btn {
+            background: #2b2b2b;
+            border: 3px solid #7e7e7e;
+            color: #e5ffd9;
+            font-size: 20px;
+            padding: 15px 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.1s ease;
+            text-transform: uppercase;
+            box-shadow: 0 5px 0 #3f3f3f;
+        }
+        .option-btn:hover:not(:disabled) {
+            background: #3e3e3e;
+            border-color: #adadad;
+        }
+        .option-btn:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #3f3f3f;
+        }
+        .option-btn.selected-true {
+            background: #005f00;
+            border-color: #00ff00;
+            color: #ffffff;
+        }
+        .option-btn.selected-false {
+            background: #5f0000;
+            border-color: #ff0000;
+            color: #ffffff;
+        }
+        .option-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .feedback {
+            font-size: 18px;
+            text-align: center;
+            padding: 10px;
+            min-height: 60px;
+            background: #1a1a1a;
+            border: 2px dashed #6b6b6b;
+            margin-bottom: 20px;
+        }
+        .reset-btn {
+            background: #4a4a4a;
+            border: 2px solid #aaaaaa;
+            color: #ffffff;
+            font-size: 18px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .score-final {
+            font-size: 20px;
+            text-align: center;
+            background: #1f3f1f;
+            padding: 15px;
+            border: 3px solid #9f9f9f;
+        }
+        hr {
+            border: 2px solid #5e5e5e;
+            margin: 20px 0;
+        }
+        /* Selling phase dengan pelanggan */
+        .customer-info {
+            background: #0a2a0a;
+            border: 3px solid #7fbf7f;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 20px;
+            color: #ffffb5;
+        }
+        .customer-order {
+            background: #1e3f1e;
+            border: 2px solid #9fdf9f;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .ingredient-group {
+            margin-bottom: 20px;
+        }
+        .ingredient-label {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #ffffb5;
+        }
+        .ingredient-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .ingredient-btn {
+            background: #2b2b2b;
+            border: 3px solid #7e7e7e;
+            color: white;
+            font-size: 18px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #3f3f3f;
+            flex: 1 0 auto;
+            max-width: 180px;
+        }
+        .ingredient-btn.selected {
+            background: #3e6b3e;
+            border-color: #9fff9f;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3f3f3f;
+        }
+        .ingredient-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .serve-btn {
+            background: #d1d1d1;
+            border: 4px solid #fff;
+            color: #1a1a1a;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 15px 20px;
+            width: 100%;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 6px 0 #6b6b6b;
+            margin: 20px 0;
+        }
+        .serve-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #6b6b6b;
+        }
+        .serve-btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .progress-bar {
+            background: #2e2e2e;
+            padding: 8px;
+            margin: 10px 0;
+            border: 2px solid #8e8e8e;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container" id="gameContainer">
+    <h1>🥛 PERJUANGAN ANAK TK MENJUAL SEBOTOL SUSU 🥛</h1>
+
+    <!-- Gambar botol susu pixel -->
+    <div class="susubotol">
+        <pre>
+    ▄██████▄
+   ██      ██
+   ██      ██
+   ██      ██
+   ██      ██
+   ██████████
+   ██      ██
+   ██      ██
+    ████████
+     █    █
+     █    █
+   BOTOL SUSU
+        </pre>
+    </div>
+
+    <!-- Cerita utama -->
+    <div class="story-box" id="storyBox">
+        Halo! Namaku Riko, anak TK yang punya mimpi besar. Ibu memberiku sebotol susu untuk dijual. Tapi sebelum berjualan, aku harus sekolah dulu. Setiap tingkat (TK, SD, SMP, SMA) ada 5 soal matematika. Nilai dihitung: 100 jika benar semua, berkurang 20 setiap salah. Setelah lulus, aku akan jualan susu. Bantu Riko meraih sukses!
+    </div>
+
+    <!-- Fase sekolah (kuis) -->
+    <div id="schoolPhase">
+        <div class="level-info">
+            <span id="levelName">TK</span>
+            <span id="questionCounter">Soal 1/5</span>
+            <span id="scoreDisplay">Nilai: 0</span>
+        </div>
+        <div class="question-box" id="questionText">
+            Loading soal...
+        </div>
+        <div class="options" id="optionsContainer">
+            <!-- option buttons akan di-generate -->
+        </div>
+        <div class="feedback" id="feedbackMessage">
+            Pilih jawaban di atas!
+        </div>
+    </div>
+
+    <!-- Fase berjualan dengan PELANGGAN -->
+    <div id="sellingPhase" style="display: none;">
+        <div class="story-box" id="sellingStory"></div>
+        
+        <!-- Info pelanggan -->
+        <div class="customer-info" id="customerInfo">
+            <span id="customerRemaining">Pelanggan tersisa: 5</span>
+        </div>
+        <div class="customer-order" id="customerOrder">
+            Pesanan: - 
+        </div>
+
+        <div class="ingredient-group">
+            <div class="ingredient-label">🥛 PILIH JENIS SUSU:</div>
+            <div class="ingredient-options" id="milkOptions">
+                <!-- akan diisi js -->
+            </div>
+        </div>
+
+        <div class="ingredient-group">
+            <div class="ingredient-label">🍬 PILIH TINGKAT KEMANISAN:</div>
+            <div class="ingredient-options" id="sugarOptions">
+                <!-- akan diisi js -->
+            </div>
+        </div>
+
+        <div class="ingredient-group">
+            <div class="ingredient-label">🍫 PILIH TOPPING:</div>
+            <div class="ingredient-options" id="toppingOptions">
+                <!-- akan diisi js -->
+            </div>
+        </div>
+
+        <button class="serve-btn" id="serveBtn" disabled>🍶 SAJIKAN SUSU 🍶</button>
+        <div class="feedback" id="sellingFeedback"></div>
+        <div class="progress-bar" id="progressBar">Pelanggan 0/5 terlayani</div>
+    </div>
+
+    <!-- Hasil akhir setelah SMA + jualan tambahan -->
+    <div id="finalResult" class="score-final" style="display: none;"></div>
+
+    <hr>
+    <button class="reset-btn" id="resetBtn">🔄 MAIN LAGI (SOAL & PESANAN BERBEDA) 🔄</button>
+</div>
+
+<script>
+    (function() {
+        // ---------- BANK SOAL BESAR (BERBEDA-BEDA) ----------
+        const questionBank = {
+            TK: [
+                { question: '1 + 1 = ?', options: ['1', '2', '3', '4'], correct: 1 },
+                { question: '2 + 2 = ?', options: ['2', '3', '4', '5'], correct: 2 },
+                { question: '3 - 1 = ?', options: ['1', '2', '3', '4'], correct: 1 },
+                { question: '4 + 1 = ?', options: ['4', '5', '6', '7'], correct: 1 },
+                { question: '5 - 2 = ?', options: ['2', '3', '4', '5'], correct: 1 },
+                { question: '0 + 3 = ?', options: ['0', '2', '3', '4'], correct: 2 },
+                { question: '2 - 0 = ?', options: ['0', '1', '2', '3'], correct: 2 },
+                { question: '3 + 3 = ?', options: ['5', '6', '7', '8'], correct: 1 },
+                { question: '4 - 3 = ?', options: ['0', '1', '2', '3'], correct: 1 },
+                { question: '1 + 4 = ?', options: ['4', '5', '6', '7'], correct: 1 },
+                { question: '5 - 5 = ?', options: ['0', '1', '5', '10'], correct: 0 },
+                { question: '2 + 1 = ?', options: ['2', '3', '4', '5'], correct: 1 },
+                { question: '3 + 0 = ?', options: ['0', '3', '4', '5'], correct: 1 },
+                { question: '4 - 2 = ?', options: ['1', '2', '3', '4'], correct: 1 },
+                { question: '1 + 2 = ?', options: ['2', '3', '4', '5'], correct: 1 }
+            ],
+            SD: [
+                { question: '12 + 7 = ?', options: ['18', '19', '20', '21'], correct: 1 },
+                { question: '20 - 8 = ?', options: ['10', '11', '12', '13'], correct: 2 },
+                { question: '9 + 9 = ?', options: ['16', '17', '18', '19'], correct: 2 },
+                { question: '15 - 6 = ?', options: ['7', '8', '9', '10'], correct: 2 },
+                { question: '11 + 13 = ?', options: ['22', '23', '24', '25'], correct: 2 },
+                { question: '14 + 9 = ?', options: ['21', '22', '23', '24'], correct: 2 },
+                { question: '18 - 7 = ?', options: ['9', '10', '11', '12'], correct: 2 },
+                { question: '7 + 8 = ?', options: ['13', '14', '15', '16'], correct: 2 },
+                { question: '16 - 9 = ?', options: ['5', '6', '7', '8'], correct: 2 },
+                { question: '13 + 8 = ?', options: ['19', '20', '21', '22'], correct: 2 },
+                { question: '10 + 10 = ?', options: ['18', '19', '20', '21'], correct: 2 },
+                { question: '17 - 8 = ?', options: ['7', '8', '9', '10'], correct: 2 },
+                { question: '6 + 15 = ?', options: ['19', '20', '21', '22'], correct: 2 },
+                { question: '19 - 11 = ?', options: ['6', '7', '8', '9'], correct: 2 },
+                { question: '14 + 7 = ?', options: ['19', '20', '21', '22'], correct: 2 }
+            ],
+            SMP: [
+                { question: '6 × 7 = ?', options: ['36', '42', '48', '56'], correct: 1 },
+                { question: '81 ÷ 9 = ?', options: ['7', '8', '9', '10'], correct: 2 },
+                { question: '15 × 3 = ?', options: ['35', '40', '45', '50'], correct: 2 },
+                { question: '64 ÷ 8 = ?', options: ['6', '8', '9', '12'], correct: 1 },
+                { question: '12 × 12 = ?', options: ['124', '144', '156', '172'], correct: 1 },
+                { question: '9 × 8 = ?', options: ['64', '72', '81', '96'], correct: 1 },
+                { question: '56 ÷ 7 = ?', options: ['6', '7', '8', '9'], correct: 2 },
+                { question: '14 × 2 = ?', options: ['24', '26', '28', '30'], correct: 2 },
+                { question: '99 ÷ 11 = ?', options: ['7', '8', '9', '10'], correct: 2 },
+                { question: '7 × 11 = ?', options: ['71', '77', '81', '87'], correct: 1 },
+                { question: '48 ÷ 6 = ?', options: ['6', '7', '8', '9'], correct: 2 },
+                { question: '13 × 3 = ?', options: ['36', '39', '42', '45'], correct: 1 },
+                { question: '72 ÷ 8 = ?', options: ['7', '8', '9', '10'], correct: 2 },
+                { question: '5 × 14 = ?', options: ['60', '65', '70', '75'], correct: 2 },
+                { question: '84 ÷ 12 = ?', options: ['6', '7', '8', '9'], correct: 1 }
+            ],
+            SMA: [
+                { question: 'Jika x + 5 = 10, maka x = ?', options: ['2', '5', '10', '15'], correct: 1 },
+                { question: 'Persegi panjang: panjang 8 cm, lebar 5 cm, luas? (cm²)', options: ['30', '35', '40', '45'], correct: 2 },
+                { question: '3x - 7 = 8, maka x = ?', options: ['3', '5', '7', '9'], correct: 1 },
+                { question: 'Rata-rata dari 4, 6, 8 adalah?', options: ['5', '6', '7', '8'], correct: 1 },
+                { question: '2³ = ?', options: ['4', '6', '8', '9'], correct: 2 },
+                { question: 'Jika y = 2x + 3 dan x = 4, maka y = ?', options: ['8', '10', '11', '12'], correct: 2 },
+                { question: '25% dari 200 = ?', options: ['25', '40', '50', '60'], correct: 2 },
+                { question: 'Akar kuadrat dari 144 = ?', options: ['10', '11', '12', '13'], correct: 2 },
+                { question: 'Sebuah segitiga siku-siku sisi 3,4, berapa sisi miring?', options: ['5', '6', '7', '8'], correct: 0 },
+                { question: '1/2 + 1/4 = ?', options: ['1/6', '2/6', '3/4', '1'], correct: 2 },
+                { question: 'Volume kubus rusuk 3 cm = ? cm³', options: ['9', '18', '27', '36'], correct: 2 },
+                { question: '2x = 10, x = ?', options: ['4', '5', '6', '7'], correct: 1 },
+                { question: '15% dari 80 = ?', options: ['10', '12', '14', '16'], correct: 1 },
+                { question: '(-5) + 8 = ?', options: ['-3', '3', '13', '-13'], correct: 1 },
+                { question: '10 - (-2) = ?', options: ['8', '10', '12', '14'], correct: 2 }
+            ]
+        };
+
+        // Bank bahan untuk pesanan (lebih bervariasi)
+        const milkTypes = ['sapi', 'kambing', 'kedelai', 'almond'];
+        const sugarLevels = ['0', '1', '2', '3']; // 0=tawar,1=sedang,2=manis,3=sangat manis
+        const toppingTypes = ['none', 'coklat', 'keju', 'stroberi', 'karamel'];
+
+        // Peta nama untuk ditampilkan
+        function milkName(m) {
+            const names = { sapi: 'Sapi', kambing: 'Kambing', kedelai: 'Kedelai', almond: 'Almond' };
+            return names[m] || m;
+        }
+        function sugarName(s) {
+            const levels = { '0': 'Tawar', '1': 'Sedang', '2': 'Manis', '3': 'Sangat Manis' };
+            return levels[s] || s;
+        }
+        function toppingName(t) {
+            const names = { none: 'Tanpa Topping', coklat: 'Coklat', keju: 'Keju', stroberi: 'Stroberi', karamel: 'Karamel' };
+            return names[t] || t;
+        }
+
+        // ---------- STATE ----------
+        let currentLevel = 0;              // 0:TK, 1:SD, 2:SMP, 3:SMA
+        let currentQuestionIndex = 0;
+        let correctCount = 0;              // jumlah benar di level ini
+        let levelScores = [0,0,0,0];        // simpan nilai tiap level
+        let answered = false;               // apakah sudah menjawab soal
+
+        // Soal untuk permainan saat ini (diacak dari bank)
+        let currentGameQuestions = [
+            [], // TK
+            [], // SD
+            [], // SMP
+            []  // SMA
+        ];
+
+        // Status jualan dengan pelanggan
+        let isSellingPhase = false;
+        let sellingForLevel = 0;
+        let sellResults = [];                // hasil tiap pelanggan (boolean) untuk semua fase (termasuk post SMA)
+        let totalCustomers = 0;              // jumlah pelanggan di fase ini
+        let customersServed = 0;             // sudah berapa dilayani di fase ini
+        let currentOrder = { milk: null, sugar: null, topping: null }; // pesanan saat ini
+        let selectedMilk = null;
+        let selectedSugar = null;
+        let selectedTopping = null;
+        let canServe = true;                 // apakah sedang bisa serve (tidak dalam cooldown)
+
+        // Post SMA (tambahan)
+        let postSmaActive = false;
+        let postSmaCustomers = 5;             // jumlah pelanggan tambahan
+
+        // Timer untuk auto next
+        let autoNextTimer = null;
+
+        // UI Elements
+        const storyBox = document.getElementById('storyBox');
+        const schoolPhase = document.getElementById('schoolPhase');
+        const sellingPhase = document.getElementById('sellingPhase');
+        const levelNameSpan = document.getElementById('levelName');
+        const questionCounterSpan = document.getElementById('questionCounter');
+        const scoreDisplaySpan = document.getElementById('scoreDisplay');
+        const questionTextDiv = document.getElementById('questionText');
+        const optionsDiv = document.getElementById('optionsContainer');
+        const feedbackDiv = document.getElementById('feedbackMessage');
+        const resetBtn = document.getElementById('resetBtn');
+        const finalResultDiv = document.getElementById('finalResult');
+
+        // Selling elements
+        const sellingStory = document.getElementById('sellingStory');
+        const customerRemainingSpan = document.getElementById('customerRemaining');
+        const customerOrderDiv = document.getElementById('customerOrder');
+        const milkOptionsDiv = document.getElementById('milkOptions');
+        const sugarOptionsDiv = document.getElementById('sugarOptions');
+        const toppingOptionsDiv = document.getElementById('toppingOptions');
+        const serveBtn = document.getElementById('serveBtn');
+        const sellingFeedback = document.getElementById('sellingFeedback');
+        const progressBar = document.getElementById('progressBar');
+
+        // Fungsi untuk mengambil soal acak dari bank
+        function pickRandomQuestions(levelKey, count) {
+            const bank = questionBank[levelKey];
+            if (!bank) return [];
+            // Acak dan ambil sejumlah count
+            const shuffled = [...bank].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, count);
+        }
+
+        // Inisialisasi ulang soal untuk semua level
+        function refreshQuestions() {
+            currentGameQuestions[0] = pickRandomQuestions('TK', 5);
+            currentGameQuestions[1] = pickRandomQuestions('SD', 5);
+            currentGameQuestions[2] = pickRandomQuestions('SMP', 5);
+            currentGameQuestions[3] = pickRandomQuestions('SMA', 5);
+        }
+
+        // Helper: hitung nilai level (100 - 20*(5-correctCount))
+        function computeLevelScore() {
+            let wrong = 5 - correctCount;
+            return 100 - (wrong * 20);
+        }
+
+        // Tampilkan soal berdasarkan state
+        function renderQuestion() {
+            let levelQuestions = currentGameQuestions[currentLevel];
+            if (!levelQuestions || levelQuestions.length === 0) {
+                // fallback jika kosong
+                refreshQuestions();
+                levelQuestions = currentGameQuestions[currentLevel];
+            }
+            let q = levelQuestions[currentQuestionIndex];
+
+            levelNameSpan.innerText = ['TK','SD','SMP','SMA'][currentLevel];
+            questionCounterSpan.innerText = `Soal ${currentQuestionIndex+1}/5`;
+            let currentLevelScore = computeLevelScore();
+            scoreDisplaySpan.innerText = `Nilai: ${currentLevelScore}`;
+            questionTextDiv.innerText = q.question;
+
+            // buat tombol pilihan
+            let htmlStr = '';
+            for (let i = 0; i < q.options.length; i++) {
+                let letter = String.fromCharCode(65 + i);
+                htmlStr += `<button class="option-btn" data-opt-index="${i}">${letter}. ${q.options[i]}</button>`;
+            }
+            optionsDiv.innerHTML = htmlStr;
+
+            // attach event listeners
+            document.querySelectorAll('#optionsContainer .option-btn').forEach(btn => {
+                btn.addEventListener('click', optionClickHandler);
+            });
+
+            answered = false;
+            document.querySelectorAll('#optionsContainer .option-btn').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('selected-true', 'selected-false');
+            });
+            feedbackDiv.innerText = 'Pilih jawaban di atas!';
+        }
+
+        // Handler saat klik pilihan (sekolah)
+        function optionClickHandler(e) {
+            if (answered) return;
+            let btn = e.currentTarget;
+            let optIndex = parseInt(btn.dataset.optIndex);
+            let levelQuestions = currentGameQuestions[currentLevel];
+            let q = levelQuestions[currentQuestionIndex];
+            let isCorrect = (optIndex === q.correct);
+
+            if (isCorrect) {
+                correctCount++;
+                btn.classList.add('selected-true');
+                feedbackDiv.innerText = '✅ BENAR! ✅';
+            } else {
+                btn.classList.add('selected-false');
+                let correctBtn = document.querySelector(`#optionsContainer .option-btn[data-opt-index="${q.correct}"]`);
+                if (correctBtn) correctBtn.classList.add('selected-true');
+                feedbackDiv.innerText = `❌ SALAH! Jawaban benar adalah ${String.fromCharCode(65+q.correct)}. ❌`;
+            }
+
+            document.querySelectorAll('#optionsContainer .option-btn').forEach(btn => {
+                btn.disabled = true;
+            });
+            answered = true;
+            let currentLevelScore = computeLevelScore();
+            scoreDisplaySpan.innerText = `Nilai: ${currentLevelScore}`;
+
+            // Auto lanjut ke soal berikutnya setelah 0.8 detik
+            if (autoNextTimer) clearTimeout(autoNextTimer);
+            autoNextTimer = setTimeout(() => {
+                autoNextTimer = null;
+                if (currentQuestionIndex === 4) {
+                    let finalLevelScore = computeLevelScore();
+                    levelScores[currentLevel] = finalLevelScore;
+                    startSellingPhase(currentLevel);
+                } else {
+                    currentQuestionIndex++;
+                    renderQuestion();
+                }
+            }, 800);
+        }
+
+        // Generate pesanan acak untuk pelanggan (dari bank bahan)
+        function generateRandomOrder() {
+            return {
+                milk: milkTypes[Math.floor(Math.random() * milkTypes.length)],
+                sugar: sugarLevels[Math.floor(Math.random() * sugarLevels.length)],
+                topping: toppingTypes[Math.floor(Math.random() * toppingTypes.length)]
+            };
+        }
+
+        // Membuat tombol bahan sesuai bank
+        function createIngredientButtons() {
+            // Susu
+            let milkHtml = '';
+            milkTypes.forEach(m => {
+                milkHtml += `<button class="ingredient-btn" data-milk="${m}">${milkName(m)}</button>`;
+            });
+            milkOptionsDiv.innerHTML = milkHtml;
+
+            // Gula
+            let sugarHtml = '';
+            sugarLevels.forEach(s => {
+                sugarHtml += `<button class="ingredient-btn" data-sugar="${s}">${sugarName(s)}</button>`;
+            });
+            sugarOptionsDiv.innerHTML = sugarHtml;
+
+            // Topping
+            let toppingHtml = '';
+            toppingTypes.forEach(t => {
+                toppingHtml += `<button class="ingredient-btn" data-topping="${t}">${toppingName(t)}</button>`;
+            });
+            toppingOptionsDiv.innerHTML = toppingHtml;
+
+            // Re-attach event listeners
+            document.querySelectorAll('[data-milk]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!canServe) return;
+                    document.querySelectorAll('[data-milk]').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedMilk = btn.dataset.milk;
+                    checkServeReady();
+                });
+            });
+            document.querySelectorAll('[data-sugar]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!canServe) return;
+                    document.querySelectorAll('[data-sugar]').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedSugar = btn.dataset.sugar;
+                    checkServeReady();
+                });
+            });
+            document.querySelectorAll('[data-topping]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!canServe) return;
+                    document.querySelectorAll('[data-topping]').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedTopping = btn.dataset.topping;
+                    checkServeReady();
+                });
+            });
+        }
+
+        // Memulai fase jualan (biasa atau post-SMA)
+        function startSellingPhase(levelIdx) {
+            isSellingPhase = true;
+            sellingForLevel = levelIdx;
+            let levelName = levelIdx <= 3 ? ['TK','SD','SMP','SMA'][levelIdx] : 'LULUSAN SMA';
+            let nilai = levelIdx <= 3 ? levelScores[levelIdx] : levelScores[3]; // nilai SMA untuk post
+
+            schoolPhase.style.display = 'none';
+            sellingPhase.style.display = 'block';
+            storyBox.style.display = 'none';
+
+            // Tentukan jumlah pelanggan
+            if (levelIdx <= 3) {
+                totalCustomers = 5; // setiap level 5 pelanggan
+            } else {
+                totalCustomers = postSmaCustomers;
+            }
+            customersServed = 0;
+
+            if (levelIdx <= 3) {
+                sellingStory.innerText = `🎓 LULUS ${levelName}! Nilai ujian: ${nilai}. Sekarang waktunya melayani ${totalCustomers} pelanggan! Ikuti pesanan mereka.`;
+            } else {
+                sellingStory.innerText = `🌟 LULUSAN SMA! Sekarang saatnya berjualan sungguhan. Layani ${totalCustomers} pelanggan terakhir!`;
+            }
+
+            // Buat tombol bahan (variasi baru setiap fase)
+            createIngredientButtons();
+
+            // Generate pesanan pertama
+            currentOrder = generateRandomOrder();
+            updateCustomerDisplay();
+
+            // Reset pilihan bahan
+            selectedMilk = null;
+            selectedSugar = null;
+            selectedTopping = null;
+            document.querySelectorAll('.ingredient-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.disabled = false;
+            });
+            serveBtn.disabled = true;
+            canServe = true;
+            sellingFeedback.innerText = 'Pilih bahan sesuai pesanan, lalu sajikan!';
+        }
+
+        // Update tampilan pelanggan dan progress
+        function updateCustomerDisplay() {
+            let remaining = totalCustomers - customersServed;
+            customerRemainingSpan.innerText = `Pelanggan tersisa: ${remaining}`;
+            let orderText = `Pesanan: Susu ${milkName(currentOrder.milk)}, Gula ${sugarName(currentOrder.sugar)}, Topping ${toppingName(currentOrder.topping)}`;
+            customerOrderDiv.innerText = orderText;
+            progressBar.innerText = `Pelanggan ${customersServed}/${totalCustomers} terlayani`;
+        }
+
+        // Cek apakah bahan yang dipilih sesuai pesanan
+        function isOrderMatch() {
+            return selectedMilk === currentOrder.milk &&
+                   selectedSugar === currentOrder.sugar &&
+                   selectedTopping === currentOrder.topping;
+        }
+
+        function checkServeReady() {
+            if (selectedMilk && selectedSugar !== null && selectedTopping) {
+                serveBtn.disabled = false;
+            } else {
+                serveBtn.disabled = true;
+            }
+        }
+
+        // Sajikan susu
+        serveBtn.addEventListener('click', () => {
+            if (!canServe) return;
+            if (!selectedMilk || selectedSugar === null || !selectedTopping) return;
+
+            // Nonaktifkan sementara
+            canServe = false;
+            document.querySelectorAll('.ingredient-btn').forEach(btn => btn.disabled = true);
+            serveBtn.disabled = true;
+
+            let match = isOrderMatch();
+            sellResults.push(match); // simpan hasil semua pelanggan
+
+            if (match) {
+                sellingFeedback.innerText = `✅ PESANAN SESUAI! Pelanggan senang.`;
+            } else {
+                sellingFeedback.innerText = `❌ TIDAK SESUAI! Pelanggan kecewa.`;
+            }
+
+            customersServed++;
+
+            if (customersServed >= totalCustomers) {
+                // Fase ini selesai
+                updateCustomerDisplay();
+
+                // Tentukan apakah ini fase SMA dan belum post-SMA
+                if (sellingForLevel === 3 && !postSmaActive) {
+                    // Langsung mulai fase post-SMA
+                    postSmaActive = true;
+                    // set ulang untuk post-SMA (dengan level dummy 4)
+                    sellingForLevel = 4; // penanda post
+                    totalCustomers = postSmaCustomers;
+                    customersServed = 0;
+                    // reset tampilan
+                    sellingStory.innerText = `🌟 LULUSAN SMA! Sekarang saatnya berjualan sungguhan. Layani ${totalCustomers} pelanggan terakhir!`;
+                    // Buat ulang tombol dengan variasi baru (tidak perlu, sudah ada, tapi kita reset pilihan)
+                    currentOrder = generateRandomOrder();
+                    updateCustomerDisplay();
+                    // Reset pilihan bahan
+                    selectedMilk = null;
+                    selectedSugar = null;
+                    selectedTopping = null;
+                    document.querySelectorAll('.ingredient-btn').forEach(btn => {
+                        btn.classList.remove('selected');
+                        btn.disabled = false;
+                    });
+                    serveBtn.disabled = true;
+                    canServe = true;
+                    sellingFeedback.innerText = 'Pilih bahan sesuai pesanan, lalu sajikan!';
+                } else {
+                    // Semua selesai (post-SMA selesai atau level lain)
+                    if (autoNextTimer) clearTimeout(autoNextTimer);
+                    autoNextTimer = setTimeout(() => {
+                        autoNextTimer = null;
+                        if (sellingForLevel === 4 || sellingForLevel === 3) {
+                            // post-SMA selesai
+                            finishGame();
+                        } else {
+                            // level biasa lanjut ke sekolah berikutnya
+                            currentLevel++;
+                            currentQuestionIndex = 0;
+                            correctCount = 0;
+                            answered = false;
+                            isSellingPhase = false;
+
+                            sellingPhase.style.display = 'none';
+                            schoolPhase.style.display = 'block';
+                            storyBox.style.display = 'block';
+                            renderQuestion();
+                        }
+                    }, 1500);
+                }
+            } else {
+                // Lanjut ke pelanggan berikutnya
+                currentOrder = generateRandomOrder();
+                updateCustomerDisplay();
+
+                // Reset pilihan
+                selectedMilk = null;
+                selectedSugar = null;
+                selectedTopping = null;
+                document.querySelectorAll('.ingredient-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.disabled = false;
+                });
+                serveBtn.disabled = true;
+                canServe = true;
+                sellingFeedback.innerText = 'Pilih bahan sesuai pesanan baru!';
+            }
+        });
+
+        // Akhir game
+        function finishGame() {
+            let totalScore = levelScores.reduce((acc, val) => acc + val, 0);
+            let average = totalScore / 4;
+            // Hitung jumlah pelanggan yang terlayani dengan benar (dari sellResults)
+            let suksesJual = sellResults.filter(v => v === true).length;
+            let totalPelanggan = sellResults.length; // 4 fase * 5 + 5 post = 25 jika post 5
+
+            schoolPhase.style.display = 'none';
+            sellingPhase.style.display = 'none';
+            storyBox.style.display = 'none';
+            finalResultDiv.style.display = 'block';
+
+            let story = '';
+            if (average >= 90 && suksesJual >= 20) {
+                story = `✨ SUKSES BESAR! ✨ Nilai rata-rata ${average.toFixed(1)} dan berhasil melayani ${suksesJual} dari ${totalPelanggan} pelanggan dengan tepat. Riko jadi pengusaha susu terkenal, kini punya pabrik sendiri! Terima kasih sudah membantu Riko! 🥛💖`;
+            } else if (average >= 70 || suksesJual >= 15) {
+                story = `👍 SUKSES! Nilai rata-rata ${average.toFixed(1)} dan melayani ${suksesJual} pelanggan dengan tepat. Riko berhasil membuka toko kelontong. Terus berjuang! 💪`;
+            } else if (average >= 50 || suksesJual >= 10) {
+                story = `🙂 CUKUP BERHASIL. Nilai rata-rata ${average.toFixed(1)} dan melayani ${suksesJual} pelanggan dengan tepat. Riko bisa jualan susu keliling, meski belum besar. Tetap semangat!`;
+            } else {
+                story = `😢 Nilai rata-rata ${average.toFixed(1)} dan hanya ${suksesJual} pelanggan terlayani dengan baik. Riko kesulitan, tapi tidak menyerah! Ayo coba lagi! 🔄`;
+            }
+
+            finalResultDiv.innerHTML = `
+                <h2>📖 AKHIR PERJUANGAN 📖</h2>
+                <p>${story}</p>
+                <p style="margin-top:15px;">Nilai tiap level: TK=${levelScores[0]}, SD=${levelScores[1]}, SMP=${levelScores[2]}, SMA=${levelScores[3]}</p>
+                <p>Total pelanggan dilayani: ${totalPelanggan}, sesuai: ${suksesJual}</p>
+                <p style="font-size:24px;">🥛 TERIMA KASIH TELAH BERMAIN 🥛</p>
+            `;
+        }
+
+        // Reset game (main lagi)
+        function resetGame() {
+            if (autoNextTimer) clearTimeout(autoNextTimer);
+            autoNextTimer = null;
+
+            // Ambil soal baru dari bank
+            refreshQuestions();
+
+            currentLevel = 0;
+            currentQuestionIndex = 0;
+            correctCount = 0;
+            levelScores = [0,0,0,0];
+            sellResults = [];
+            postSmaActive = false;
+            answered = false;
+            isSellingPhase = false;
+
+            schoolPhase.style.display = 'block';
+            sellingPhase.style.display = 'none';
+            storyBox.style.display = 'block';
+            finalResultDiv.style.display = 'none';
+
+            storyBox.innerText = 'Halo! Namaku Riko, anak TK yang punya mimpi besar. Ibu memberiku sebotol susu untuk dijual. Tapi sebelum berjualan, aku harus sekolah dulu. Setiap tingkat (TK, SD, SMP, SMA) ada 5 soal matematika. Nilai dihitung: 100 jika benar semua, berkurang 20 setiap salah. Setelah lulus, aku akan jualan susu. Bantu Riko meraih sukses!';
+
+            renderQuestion();
+        }
+
+        resetBtn.addEventListener('click', resetGame);
+        // Inisialisasi pertama
+        resetGame();
+    })();
+</script>
+</body>
+</html>
